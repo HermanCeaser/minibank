@@ -27,10 +27,5 @@ Run the program using the following format:
 cargo run 
 ```
 
-## Project Structure
-
-- main.rs: Handles command-line arguments and orchestrates the program execution.
-- lib.rs: Contains the core logic for parsing, searching, and testing.
-
 ## Contributing
 Contributions, bug reports, and feature requests are welcome! Feel free to open an issue or submit a pull request.
