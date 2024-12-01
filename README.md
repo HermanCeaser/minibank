@@ -12,8 +12,8 @@ MiniBank is a simple implementation of a banking system in Rust. It allows you t
 Ensure you have Rust installed on your system.
 ### Clone the repository:
 ```sh
-git clone https://github.com/HermanCeaser/rust-minibank
-cd rust-minibank
+git clone https://github.com/HermanCeaser/minibank.git
+cd minibank
 ```
 
 ### Build the project:
