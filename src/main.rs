@@ -11,9 +11,21 @@ fn main() {
         balance: 20000.0
     };
 
-    main_account.deposit(10000.0);
+    match main_account.deposit(10000.0) {
+        Ok(_) => println!("Successfully Deposited 10000.0 into  {}'s account", main_account.holder_name),
+        Err(e) => println!("Failed to deposit into {}'s account: {}", main_account.holder_name, e),
+    }
 
-    other_account.withdraw(5000.0);
+    match main_account.withdraw(15000.0) {
+        Ok(_) => println!("Successfully Withdrew 15000.0 from  {}'s account", main_account.holder_name),
+        Err(e) => println!("Failed to withdraw 15000 from  {}'s account: {}", main_account.holder_name, e),
+    }
+
+    match other_account.withdraw(5000.0) {
+        Ok(_) => println!("Successfully withdrew 5000.0 into  {}'s account", other_account.holder_name),
+        Err(e) => println!("Error withdrawing funds: {}", e),
+    }
+    
     let balance1 = main_account.balance();
     let balance2 = other_account.balance();
 
@@ -23,8 +35,8 @@ fn main() {
 }
 
 trait Account {
-    fn deposit(&mut self, amount:f64);
-    fn withdraw(&mut self, amount: f64);
+    fn deposit(&mut self, amount:f64) -> Result<(), String>;
+    fn withdraw(&mut self, amount: f64) -> Result<(), String>;
     fn balance(&mut self) -> f64;
 }
 
@@ -35,12 +47,24 @@ struct BankAccount {
 }
 
 impl Account for BankAccount {
-    fn deposit(&mut self, amount:f64) {
-        self.balance += amount;
+    fn deposit(&mut self, amount:f64) -> Result<(), String> {
+        if amount > 0.0 {
+            self.balance += amount;
+            Ok(())
+        } else {
+            Err("Deposit amount must be greater than zero!".to_string())
+        }
     }
 
-    fn withdraw(&mut self, amount: f64) {
-        self.balance -= amount;
+    fn withdraw(&mut self, amount: f64) -> Result<(), String> {
+        if amount <= 0.0 {
+            Err("Withdrawal amount must be greater than zero.".to_string())
+        } else if amount > self.balance {
+            Err("Insufficient balance.".to_string())
+        } else {
+            self.balance -= amount;
+            Ok(())
+        }
     }
 
     fn balance(&mut self) -> f64 {
